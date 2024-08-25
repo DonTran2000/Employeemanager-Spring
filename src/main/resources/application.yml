@@ -1,0 +1,48 @@
+server:
+  port: 8080
+
+# MySQL Configuration
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/employeemanager
+    username: root
+    password:
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: none #chỗ này mà sửa thành drop-create thì rất nguy
+    properties:
+      hibernate:
+      dialect: org.hibernate.dialect.MySQL8Dialect
+      format_sql: true
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: trandon1811@gmail.com
+    password: krzotdwzryielmbn
+
+    properties:
+      mail:
+        smtp:
+          ssl:
+            trust: "*"
+          auth: true
+          starttls:
+            enable: true
+          connectiontimeout: 5000
+          timeout: 3000
+          writetimeout: 5000
+
+jwt:
+  expiryHour: 1 # 1h
+  expiryDay: 1 # 1day
+  secretKey: TaqlmGv1iEDMRiFp/pHuID1+T84IABfuA0xXh4GhiUI=
+  refreshKey: d6cc0a088c07683c65cd266860cab8d94b3a1937b17420d9da30ca299c09fb77
+
+# OTP expiration time in minutes
+otp:
+  expiration:
+    time: 5
+
+api:
+  prefix: /api/v1

@@ -1,0 +1,8 @@
+package com.dom.employeemanager.exception;
+
+public class EmailAlreadyExistsException extends RuntimeException {
+  public EmailAlreadyExistsException(String message) {
+    super(message);
+  }
+}
+
