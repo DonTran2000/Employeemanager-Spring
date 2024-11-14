@@ -83,7 +83,7 @@ public class JwtTokenFilter extends OncePerRequestFilter {
       Pair.of(String.format("%s/employees/refreshToken", apiPrefix), "POST"),
       Pair.of(String.format("%s/employees/reset-password", apiPrefix), "POST"),
 
-      Pair.of(String.format("%s/email/send-reset-password", apiPrefix), "POST"),
+      Pair.of(String.format("%s/email/otp/resetPassword", apiPrefix), "POST"),
       Pair.of(String.format("%s/email/otp/send", apiPrefix), "POST"),
       Pair.of(String.format("%s/email/otp/validate", apiPrefix), "POST"),
 

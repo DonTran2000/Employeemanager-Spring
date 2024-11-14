@@ -10,5 +10,6 @@ import lombok.*;
 @Setter
 public class ResetPasswordDTO {
   private String email;
-  private String phone;
+  private String otp;
+  private String newPassword;
 }

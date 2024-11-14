@@ -38,7 +38,7 @@ public class WebSecurityConfig {
             String.format("%s/employees/refreshToken", apiPrefix),
             String.format("%s/employees/reset-password", apiPrefix),
 
-            String.format("%s/email/send-reset-password", apiPrefix),
+            String.format("%s/email/otp/resetPassword", apiPrefix),
             String.format("%s/email/otp/send", apiPrefix),
             String.format("%s/email/otp/validate", apiPrefix),
 

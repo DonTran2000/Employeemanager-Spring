@@ -13,6 +13,7 @@ import java.time.LocalDateTime;
 @Setter
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
 @Builder
 public class OtpCode {
   @Id

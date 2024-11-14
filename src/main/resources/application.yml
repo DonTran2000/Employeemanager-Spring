@@ -15,23 +15,22 @@ spring:
       hibernate:
       dialect: org.hibernate.dialect.MySQL8Dialect
       format_sql: true
+
   mail:
     host: smtp.gmail.com
     port: 587
     username: trandon1811@gmail.com
-    password: krzotdwzryielmbn
-
+    password: dntrpcvfeurrjuat
     properties:
       mail:
         smtp:
-          ssl:
-            trust: "*"
           auth: true
           starttls:
             enable: true
           connectiontimeout: 5000
-          timeout: 3000
+          timeout: 5000
           writetimeout: 5000
+
 
 jwt:
   expiryHour: 1 # 1h

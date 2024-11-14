@@ -2,10 +2,7 @@ package com.dom.employeemanager.controller;
 
 import com.dom.employeemanager.dtos.EmployeeDTO;
 import com.dom.employeemanager.dtos.EmployeeLoginDTO;
-import com.dom.employeemanager.dtos.ResetPasswordDTO;
 import com.dom.employeemanager.dtos.RefreshTokenDTO;
-import com.dom.employeemanager.exception.UserNotActiveException;
-import com.dom.employeemanager.exception.UserNotFoundException;
 import com.dom.employeemanager.models.Employee;
 import com.dom.employeemanager.models.Token;
 import com.dom.employeemanager.responses.EmployeeResponse;
@@ -21,10 +18,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -110,22 +105,6 @@ public class EmployeeController {
       ResponseObject.builder()
         .message("Get user's detail successfully")
         .data(EmployeeResponse.fromEmployee(employee))
-        .status(HttpStatus.OK)
-        .build()
-    );
-  }
-
-  @PutMapping("/reset-password/{employeeId}")
-  public ResponseEntity<ResponseObject> resetPassword(@PathVariable long employeeId) throws Exception {
-
-    String newPassword = UUID.randomUUID().toString().substring(0, 5);
-
-    employeeService.resetPassword(employeeId, newPassword);
-
-    return ResponseEntity.ok().body(
-      ResponseObject.builder()
-        .message("Reset password successfully")
-        .data(newPassword)
         .status(HttpStatus.OK)
         .build()
     );

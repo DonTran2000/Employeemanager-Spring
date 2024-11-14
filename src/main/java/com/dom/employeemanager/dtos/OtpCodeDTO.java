@@ -11,5 +11,6 @@ import lombok.Setter;
 @AllArgsConstructor
 public class OtpCodeDTO {
   private String email;
+  private String phone;
   private String otp;
 }

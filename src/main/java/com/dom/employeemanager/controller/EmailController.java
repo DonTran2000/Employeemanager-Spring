@@ -1,12 +1,15 @@
 package com.dom.employeemanager.controller;
 
 import com.dom.employeemanager.dtos.OtpCodeDTO;
+import com.dom.employeemanager.dtos.ResetPasswordDTO;
 import com.dom.employeemanager.repo.EmployeeRepo;
+import com.dom.employeemanager.responses.ResponseObject;
 import com.dom.employeemanager.service.EmailService;
 import com.dom.employeemanager.service.EmployeeService;
 import com.dom.employeemanager.service.OtpCodeService;
 import jakarta.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
@@ -57,22 +60,61 @@ public class EmailController {
 
   // OTP
   @PostMapping("/otp/send")
-  public ResponseEntity<String> sendOtp(@RequestBody OtpCodeDTO otpCodeDTO) {
+  public ResponseEntity<ResponseObject> sendOtp(@RequestBody OtpCodeDTO otpCodeDTO) {
     try {
-      otpCodeService.generateAndSendOtpCode(otpCodeDTO.getEmail());
-      return ResponseEntity.ok("OTP has been sent to your email.");
+      String optCode = otpCodeService.generateAndSendOtpCode(otpCodeDTO.getEmail(), otpCodeDTO.getPhone());
+      return ResponseEntity.ok().body(
+        ResponseObject.builder()
+          .message("OTP has been sent to your email.")
+          .data(optCode)
+          .status(HttpStatus.OK)
+          .build()
+      );
     } catch (MessagingException e) {
-      return ResponseEntity.status(500).body("Failed to send OTP.");
+      return ResponseEntity.ok().body(
+        ResponseObject.builder()
+          .message(ResponseEntity.status(500).toString())
+          .status(HttpStatus.INTERNAL_SERVER_ERROR)
+          .build()
+      );
     }
   }
 
-  @PostMapping("/opt/validate")
-  public ResponseEntity<String> validateOtp(@RequestBody OtpCodeDTO otpCodeDTO) {
+  @PostMapping("/otp/validate")
+  public ResponseEntity<ResponseObject> validateOtp(@RequestBody OtpCodeDTO otpCodeDTO) {
     boolean isValid = otpCodeService.validateOtp(otpCodeDTO.getEmail(), otpCodeDTO.getOtp());
     if (isValid) {
-      return ResponseEntity.ok("OTP is valid.");
+      return ResponseEntity.ok(ResponseObject.builder()
+        .message("Otp is valid")
+        .status(HttpStatus.OK)
+        .build()
+      );
     } else {
-      return ResponseEntity.status(400).body("Invalid or expired OTP.");
+      return ResponseEntity.internalServerError().body(
+        ResponseObject.builder()
+          .message("Invalid or expired OTP.")
+          .status(HttpStatus.INTERNAL_SERVER_ERROR)
+          .build()
+      );
+    }
+  }
+
+  @PostMapping("/otp/resetPassword")
+  public ResponseEntity<ResponseObject> resetPassword(@RequestBody ResetPasswordDTO resetPasswordDTO) {
+    boolean result = otpCodeService.resetPassword(resetPasswordDTO);
+    if (result) {
+      return ResponseEntity.ok(ResponseObject.builder()
+        .message("Mật khẩu đã được đặt lại thành công.")
+        .status(HttpStatus.OK)
+        .build()
+      );
+    } else {
+      return ResponseEntity.internalServerError().body(
+        ResponseObject.builder()
+          .message("Có lỗi xảy ra khi đặt lại mật khẩu.")
+          .status(HttpStatus.INTERNAL_SERVER_ERROR)
+          .build()
+      );
     }
   }
 }
